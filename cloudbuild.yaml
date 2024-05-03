@@ -4,7 +4,7 @@ steps:
   - name: 'node:18'  # Choose appropriate Node.js version
     args: ['npm', 'install']
   - name: 'gcr.io/cloud-builders/pack'
-    args: ['build', '--builder', 'gcr.io/buildpack-deps:latest', '.']  # Packs your application
+    args: ['build', '--builder', 'gcr.io/buildpack-deps', '.']  # Packs your application
   - name: 'gcloud'  # Assuming you have configured gcloud with your project
     args: ['artifacts', 'repositories', add', 'jogjaku-artifacts']  # Create repository if needed
   - name: 'gcloud'
