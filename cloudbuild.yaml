@@ -4,7 +4,7 @@ steps:
   - name: 'node:18'  # Choose appropriate Node.js version
     args: ['npm', 'install']
   - name: 'node:18'
-    args: ['npm', 'run', 'build']  # Replace 'build' with your build command
+    args: ['npm', 'run', 'start']  # Replace 'build' with your build command
   - name: 'gcr.io/cloud-builders/pack'
     args: ['build', '--builder', 'gcr.io/buildpack-deps:latest', '.']  # Packs your application
   - name: 'gcloud'  # Assuming you have configured gcloud with your project
