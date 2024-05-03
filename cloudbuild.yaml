@@ -1,18 +1,12 @@
 steps:
   - name: 'gcr.io/cloud-builders/gsutil'
     args: ['cp', '${_ENV_PATH}', '.env']
-  - name: 'node:18'  # Choose appropriate Node.js version
-    args: ['npm', 'install']
-  - name: 'gcr.io/cloud-builders/pack'
-    args: ['build', '--builder', 'gcr.io/buildpack-deps', '.']  # Packs your application
-  - name: 'gcloud'  # Assuming you have configured gcloud with your project
-    args: ['artifacts', 'repositories', add', 'jogjaku-artifacts']  # Create repository if needed
-  - name: 'gcloud'
-    args: ['artifacts', 'placements', create', 'jogjaku-artifacts', 'asia-southeast1']  # Create placement in desired region
-  - name: 'gcloud'
-    args: ['artifacts', 'packages', publish', './*.tgz', '--repository', 'jogjaku-artifacts']  # Replace ./*.tgz with your artifact path
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'asia-southeast2-docker.pkg.dev/${_PROJECT_ID}/jogjaku-api/jogjaku-api', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'asia-southeast2-docker.pkg.dev/${_PROJECT_ID}/jogjaku-api/jogjaku-api']
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ['run', 'deploy', 'jogjaku-api', '--image', 'gcr.io${_PROJECT_ID}/jogjaku-api', '--region', 'asia-southeast2', '--platform', 'managed', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'jogjaku-api', '--image', 'asia-southeast2-docker.pkg.dev/${_PROJECT_ID}/jogjaku-api/jogjaku-api', '--region', 'asia-southeast2', '--platform', 'managed', '--allow-unauthenticated']
 
 options:
   logging: CLOUD_LOGGING_ONLY
