@@ -2,7 +2,7 @@ steps:
   - name: 'gcr.io/cloud-builders/gsutil'
     args: ['cp', '${_ENV_PATH}', '.env']
   - name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-t', 'gcr.io/${_PROJECT_ID}/jogjaku-api', '.' ]
+    args: [ 'build', '-t', 'gcr.io${_PROJECT_ID}/jogjaku-api', '.' ]
   - name: 'gcr.io/cloud-builders/docker'
     args: [ 'push', 'gcr.io/${_PROJECT_ID}/jogjaku-api']
   - name: "gcr.io/cloud-builders/gcloud"
